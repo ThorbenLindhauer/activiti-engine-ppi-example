@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions id="oryx_e2f0531b-e8ef-4469-9b31-e28de4a54f4a"
+	typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
+	targetNamespace="http://www.omg.org/bpmn20" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:ppinot="http://www.isa.us.es/ppinot" xmlns:bpmndi="http://bpmndi.org"
+	xmlns:activiti="http://activiti.org/bpmn"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+	<process id="scenario" isExecutable="true">
+		<extensionElements>
+			<ppinot:ppiset>			
+				<!-- Process Measures with nested Base Measures -->
+				<ppinot:aggregatedMeasure analysisperiod=""
+					samplingfrequency="" aggregationfunction="Sum"
+					id="oryx_25EE7E15-74CE-4EF1-958A-6814A3B9FCD3">
+					<ppinot:countMeasure unitofmeasure="" scale=""
+						description="" name="How many orders are handled?" id="count_measure_1"/>
+				</ppinot:aggregatedMeasure>
+				
+				<ppinot:aggregatedMeasure analysisperiod=""
+					samplingfrequency="" aggregationfunction="Average"
+					id="oryx_1B45FAF5-7D98-4AA0-8531-DFB01F25219A">
+					<ppinot:timeMeasure unitofmeasure="" scale=""
+						description="" name="average processing time" id="time_measure_1"/>
+				</ppinot:aggregatedMeasure>
+				
+				<ppinot:aggregatedMeasure analysisperiod=""
+					samplingfrequency="" aggregationfunction="Sum"
+					id="oryx_575613DB-7F13-4C6E-AC63-1C96C92E50EC">
+					<ppinot:countMeasure unitofmeasure="" scale=""
+						description="" name="How often is human advice needed?" id="count_measure_2"/>
+				</ppinot:aggregatedMeasure>
+				
+				<ppinot:aggregatedMeasure analysisperiod=""
+					samplingfrequency="" aggregationfunction="Sum"
+					id="oryx_76EE0209-30BE-48AB-BD7C-154FD1DA2691">
+					<ppinot:dataMeasure property="value" state=""
+						unitofmeasure="" scale="" description="" name="" id="data_measure1"/>
+				</ppinot:aggregatedMeasure>
+				
+				<ppinot:derivedProcessMeasure function="${assisted/processed}"
+					unitofmeasure="" scale="" description="" name=""
+					id="oryx_F978A44A-E690-469E-9C74-13B6E04C415C" />
+					
+				<!-- Connectors -->
+				<ppinot:appliesToConnector restriction=""
+					counatend="Start" targetRef="oryx_E3393FD9-4C49-47AD-9457-3F4039D9E4A7"
+					sourceRef="count_measure_1" id="oryx_A5F08136-5A96-44BE-AA43-3D907825564D" />
+				<ppinot:appliesToConnector restriction=""
+					counatend="Start" targetRef="oryx_3ECF1027-13E5-4F8A-828B-298307E5FF90"
+					sourceRef="count_measure_2" id="oryx_77C47AC0-C19D-46DD-8A67-CACAB5C059FD" />
+				<ppinot:appliesToConnector restriction=""
+					counatend="" targetRef="oryx_221DA3CB-799A-4A41-B19D-A46CB2489A4B"
+					sourceRef="data_measure1" id="oryx_2EEF818E-F5A7-492B-AC29-9934A2BE2AC1" />
+				<ppinot:TimeConnector conditiontype="From"
+					counatend="Start" targetRef="oryx_E3393FD9-4C49-47AD-9457-3F4039D9E4A7"
+					sourceRef="time_measure_1" id="oryx_5D3E7FDF-C986-4682-A851-A444EE973700" />
+				<ppinot:TimeConnector conditiontype="To"
+					counatend="End" targetRef="oryx_18C0363E-04B6-4881-A25B-FECBCFBEFA54"
+					sourceRef="time_measure_1" id="oryx_6BBB786B-D84C-43CC-8C6B-3B66750E7335" />
+				<ppinot:uses variable="processed"
+					targetRef="oryx_25EE7E15-74CE-4EF1-958A-6814A3B9FCD3" sourceRef="oryx_F978A44A-E690-469E-9C74-13B6E04C415C"
+					id="oryx_B39CE7D3-ABB7-4EDF-BE3C-65DD1A1D963C" />
+				<ppinot:uses variable="assisted"
+					targetRef="oryx_575613DB-7F13-4C6E-AC63-1C96C92E50EC" sourceRef="oryx_F978A44A-E690-469E-9C74-13B6E04C415C"
+					id="oryx_9D79FEC8-4EEC-41BF-B13D-83CDB5253BD9" />
+				
+				<!-- PPI Elements -->
+				<ppinot:ppi id="ppi1"
+					measuredBy="oryx_1B45FAF5-7D98-4AA0-8531-DFB01F25219A" target="&lt; 60000" />
+				<ppinot:ppi id="ppi2"
+					measuredBy="oryx_F978A44A-E690-469E-9C74-13B6E04C415C" target="&lt; 0.6" />
+				<ppinot:ppi id="ppi3"
+					measuredBy="oryx_76EE0209-30BE-48AB-BD7C-154FD1DA2691" target="&gt; 50000" />
+			</ppinot:ppiset>
+		</extensionElements>
+		<serviceTask name="Analyze order for need of assistance" activiti:class="de.thorben.ppi.AnalyzeOrderDelegate"
+			id="oryx_E3393FD9-4C49-47AD-9457-3F4039D9E4A7">
+			<dataInputAssociation id="oryx_5CF8FDE6-9FA1-4DFF-AFF6-D9288702B3C4">
+				<sourceRef>oryx_221DA3CB-799A-4A41-B19D-A46CB2489A4B</sourceRef>
+				<targetRef>oryx_E3393FD9-4C49-47AD-9457-3F4039D9E4A7</targetRef>
+			</dataInputAssociation>
+		</serviceTask>
+		<startEvent isInterrupting="true" name=""
+			id="oryx_6DF169B7-546C-44CB-8B1A-629B7E1F6BD9">
+		</startEvent>
+		<exclusiveGateway gatewayDirection="Diverging"
+			name="assistance required?" id="oryx_2D26AEA6-96A5-4649-B037-1292A80FC93F" />
+		<userTask name="Enter advice" id="oryx_3ECF1027-13E5-4F8A-828B-298307E5FF90">
+			<humanPerformer>
+				<resourceAssignmentExpression>
+					<formalExpression>clerk</formalExpression>
+				</resourceAssignmentExpression>
+			</humanPerformer>
+		</userTask>
+		<userTask name="Review advice and update order" id="oryx_D4E2C633-55DA-4091-9647-2D1789111941">
+			<humanPerformer>
+				<resourceAssignmentExpression>
+					<formalExpression>customer</formalExpression>
+				</resourceAssignmentExpression>
+			</humanPerformer>
+		</userTask>
+		<exclusiveGateway gatewayDirection="Converging" name=""
+			id="oryx_D4D32828-B67D-4C79-AE38-4297EA5BDA61" />
+		<serviceTask name="Send confirmation"
+			id="oryx_18C0363E-04B6-4881-A25B-FECBCFBEFA54" activiti:class="de.thorben.ppi.SendConfirmationDelegate"/>
+		<endEvent name="" id="oryx_F670D9D8-8FC7-4F25-B173-A79B5010B503" />
+		<sequenceFlow targetRef="oryx_E3393FD9-4C49-47AD-9457-3F4039D9E4A7"
+			sourceRef="oryx_6DF169B7-546C-44CB-8B1A-629B7E1F6BD9" name=""
+			id="oryx_F2925D04-AD0C-4D17-924B-2E2BBB65D94D" />
+		<sequenceFlow targetRef="oryx_2D26AEA6-96A5-4649-B037-1292A80FC93F"
+			sourceRef="oryx_E3393FD9-4C49-47AD-9457-3F4039D9E4A7" name=""
+			id="oryx_1448A3F3-8CBC-40ED-BADD-0AA56E8C183A" />
+		<sequenceFlow targetRef="oryx_3ECF1027-13E5-4F8A-828B-298307E5FF90"
+			sourceRef="oryx_2D26AEA6-96A5-4649-B037-1292A80FC93F" name=""
+			id="oryx_C6FF14DA-E5BC-43FB-85D7-F5421DC2CB0A">
+			<conditionExpression xsi:type="tFormalExpression">${assistanceGranted == true}</conditionExpression>
+		</sequenceFlow>
+		<sequenceFlow targetRef="oryx_D4E2C633-55DA-4091-9647-2D1789111941"
+			sourceRef="oryx_3ECF1027-13E5-4F8A-828B-298307E5FF90" name=""
+			id="oryx_D28CE6E5-75A2-4A1F-82A2-61C807F63526" />
+		<sequenceFlow targetRef="oryx_D4D32828-B67D-4C79-AE38-4297EA5BDA61"
+			sourceRef="oryx_2D26AEA6-96A5-4649-B037-1292A80FC93F" name=""
+			id="oryx_887AD99A-1A50-4617-90D1-C47A6047A4D0">
+			<conditionExpression xsi:type="tFormalExpression">${assistanceGranted == false}</conditionExpression>
+		</sequenceFlow>
+		<sequenceFlow targetRef="oryx_D4D32828-B67D-4C79-AE38-4297EA5BDA61"
+			sourceRef="oryx_D4E2C633-55DA-4091-9647-2D1789111941" name=""
+			id="oryx_A795ED48-A265-4AF5-B9C2-BD983976DECB" />
+		<sequenceFlow targetRef="oryx_18C0363E-04B6-4881-A25B-FECBCFBEFA54"
+			sourceRef="oryx_D4D32828-B67D-4C79-AE38-4297EA5BDA61" name=""
+			id="oryx_16D6C424-50E1-4032-B342-C84E8C66CBAA" />
+		<sequenceFlow targetRef="oryx_F670D9D8-8FC7-4F25-B173-A79B5010B503"
+			sourceRef="oryx_18C0363E-04B6-4881-A25B-FECBCFBEFA54" name=""
+			id="oryx_089E565E-28CF-4546-BA7E-BCE981FBB50C" />
+		<dataObject name="Order"
+			id="oryx_221DA3CB-799A-4A41-B19D-A46CB2489A4B" />
+	</process>
+</definitions>
