@@ -1,6 +1,7 @@
 [activitiPPIRepo]: https://github.com/ThorbenLindhauer/activiti-engine-ppi
 [scenarioImage]: https://raw.github.com/ThorbenLindhauer/activiti-engine-ppi-example/master/scenario.png "The scenario process"
 [scenarioXml]: https://github.com/ThorbenLindhauer/activiti-engine-ppi-example/blob/master/src/scenario.bpmn20.xml
+[exampleApp]: https://github.com/downloads/ThorbenLindhauer/activiti-engine-ppi-example/exampleApp.jar
 This project illustrates how to measure performance indicator on BPMN processes using the [PPI-enhanced Activiti process engine][activitiPPIRepo].
 
 Scenario
@@ -28,7 +29,7 @@ The PPI-related extension elements are explained on the readme of the [engine][a
 Demo application
 ================
 
-To run the demo application, you can either checkout the sources or use a pre-built .jar (to be uploaded).
+To run the demo application, you can either checkout the sources or use a pre-built [jar][exampleApp].
 If you choose to build and run it from the sources, you also have to build the [engine][activitiPPIRepo] yourself.
 
 The application takes 0 or 4 arguments. If 0, the arguments are set to default values. These are the arguments:
