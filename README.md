@@ -17,12 +17,10 @@ The customer may then review his order and update it and finally receives an ord
 Payment and delivery are not part of this process.
 
 The defined PPIs:
+
 1. PPI 1 measures the overall execution time and aggregates the average overall process instances. It sets less than 60 seconds as a target value.
-2. PPI 2 involves two Count Measures: one that counts all process instances and the other that counts the instances that involve human assistance.
-It then applies a derivation function and asserts that the fraction of assisted cases is less than 60 %.
-3. PPI 3 refers to a Data Measure and measures the value of the incoming orders. It is specified to measure and sum the "value" field of the "order" 
-data object over all process instances. As Activiti does not treat modelled data objects, this relies to java objects that are identified by the data 
-object name (here "Order") in the execution context.
+2. PPI 2 involves two Count Measures: one that counts all process instances and the other that counts the instances that involve human assistance. It then applies a derivation function and asserts that the fraction of assisted cases is less than 60 %.
+3. PPI 3 refers to a Data Measure and measures the value of the incoming orders. It is specified to measure and sum the "value" field of the "order" data object over all process instances. As Activiti does not treat modelled data objects, this relies to java objects that are identified by the data object name (here "Order") in the execution context.
 
 The serialized process can be found [here][scenarioXml]. 
 The PPI-related extension elements are explained on the readme of the [engine][activitiPPIRepo].
