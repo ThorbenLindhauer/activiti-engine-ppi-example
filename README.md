@@ -29,7 +29,7 @@ The PPI-related extension elements are explained on the readme of the [engine][a
 Demo application
 ================
 
-To run the demo application, you can either checkout the sources or use a pre-built [jar][exampleApp].
+To run the demo application, you can either checkout the sources or use a pre-built [jar][exampleApp] (includes all required libraries).
 If you choose to build and run it from the sources, you also have to build the [engine][activitiPPIRepo] yourself.
 
 The application takes 0 or 4 arguments. If 0, the arguments are set to default values. These are the arguments:
